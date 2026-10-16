@@ -1,0 +1,14 @@
+{
+  "name": "leadpulse-bot",
+  "version": "1.0.0",
+  "main": "autopilot-server.js",
+  "scripts": {
+    "start": "node autopilot-server.js"
+  },
+  "dependencies": {
+    "@whiskeysockets/baileys": "^6.7.9",
+    "nodemailer": "^8.0.0",
+    "pino": "^9.5.0",
+    "qrcode": "^1.5.4"
+  }
+}

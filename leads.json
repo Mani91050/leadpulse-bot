@@ -1,0 +1,247 @@
+[
+  {
+    "id": "lead-1",
+    "name": "Raw Gym Limited",
+    "niche": "gym",
+    "city": "Doncaster, UK",
+    "country": "United Kingdom",
+    "phone": "+447710409749",
+    "email": "rawgymlimited@gmail.com",
+    "website": "http://www.rawgymlimited.co.uk",
+    "website_status": "DEAD_DOMAIN (HTTP 000 / Expired)",
+    "score": 98,
+    "tier": "HOT",
+    "reasons": [
+      "Website domain is dead/offline (+50)",
+      "Direct UK Mobile WhatsApp (+25)",
+      "Verified Gmail (+15)",
+      "Exact Gym Demo Match (+8)"
+    ],
+    "demo_url": "https://instant-crystal-jrl47xi.vercel.app/",
+    "status": "New Lead"
+  },
+  {
+    "id": "lead-2",
+    "name": "KPC Mac & PC Repairs",
+    "niche": "tech",
+    "city": "Chorley, UK",
+    "country": "United Kingdom",
+    "phone": "+447949763596",
+    "email": "kpcmacrepairs@gmail.com",
+    "website": "http://www.kpcmacrepairs.co.uk",
+    "website_status": "DEAD_DOMAIN (Offline)",
+    "score": 97,
+    "tier": "HOT",
+    "reasons": [
+      "Broken .co.uk website (+50)",
+      "Direct UK Mobile WhatsApp (+25)",
+      "Direct Gmail (+15)",
+      "Exact Tech Demo Match (+7)"
+    ],
+    "demo_url": "https://nimble-redwood-oqmd48k.vercel.app/",
+    "status": "New Lead"
+  },
+  {
+    "id": "lead-3",
+    "name": "FMC Auto Parts",
+    "niche": "auto",
+    "city": "Concord, Ontario",
+    "country": "Canada",
+    "phone": "+19054828666",
+    "email": "info@fmcauto.ca",
+    "website": "None",
+    "website_status": "NO_WEBSITE (Custom Demo Built)",
+    "score": 96,
+    "tier": "HOT",
+    "reasons": [
+      "No active website (+48)",
+      "Custom FMC Auto Demo Built (+28)",
+      "Verified Phone (+20)"
+    ],
+    "demo_url": "https://speedy-scarlet-qid4ny4.vercel.app",
+    "status": "New Lead"
+  },
+  {
+    "id": "lead-4",
+    "name": "Doctor Mac Toronto",
+    "niche": "tech",
+    "city": "Toronto, Ontario",
+    "country": "Canada",
+    "phone": "+14162789058",
+    "email": "fts_tech@hotmail.com",
+    "website": "http://mactorontorepair.ca",
+    "website_status": "BROKEN / NO SSL (Outdated HTTP)",
+    "score": 95,
+    "tier": "HOT",
+    "reasons": [
+      "Primary domain broken (+45)",
+      "Direct Owner Email (Nisar) (+25)",
+      "Phone Verified (+15)",
+      "Tech Demo Match (+10)"
+    ],
+    "demo_url": "https://nimble-redwood-oqmd48k.vercel.app/",
+    "status": "New Lead"
+  },
+  {
+    "id": "lead-5",
+    "name": "Salon & Spa D'Alba",
+    "niche": "salon",
+    "city": "King City, Ontario",
+    "country": "Canada",
+    "phone": "+19055392646",
+    "email": "salonandspaalba@rogers.com",
+    "website": "None",
+    "website_status": "NO_WEBSITE",
+    "score": 94,
+    "tier": "HOT",
+    "reasons": [
+      "No website found (+45)",
+      "Direct Owner Email (Alba & Daniela) (+25)",
+      "Verified Phone (+14)",
+      "Luxury Demo Match (+10)"
+    ],
+    "demo_url": "https://plinth-demo.vercel.app",
+    "status": "New Lead"
+  },
+  {
+    "id": "lead-6",
+    "name": "RAC Technologies",
+    "niche": "tech",
+    "city": "Newmarket, Ontario",
+    "country": "Canada",
+    "phone": "+19057152190",
+    "email": "crice@ractechnologies.ca",
+    "website": "http://ractechnologies.com",
+    "website_status": "DEAD_DOMAIN (HTTP 000)",
+    "score": 94,
+    "tier": "HOT",
+    "reasons": [
+      "Website offline (+50)",
+      "Direct Decision-Maker Email (+25)",
+      "Verified Phone (+19)"
+    ],
+    "demo_url": "https://nimble-redwood-oqmd48k.vercel.app/",
+    "status": "New Lead"
+  },
+  {
+    "id": "lead-7",
+    "name": "Sweets & Treats Bakery",
+    "niche": "bakery",
+    "city": "Belfast, UK",
+    "country": "United Kingdom",
+    "phone": "+447548224604",
+    "email": "sweetsandtreatsbelfast@gmail.com",
+    "website": "None",
+    "website_status": "NO_WEBSITE (Facebook Only)",
+    "score": 93,
+    "tier": "HOT",
+    "reasons": [
+      "No ordering website (+45)",
+      "Direct UK Mobile WhatsApp (+25)",
+      "Verified Email (+15)",
+      "Bakery Demo Match (+8)"
+    ],
+    "demo_url": "https://agile-mesa-xz9bwog.vercel.app/",
+    "status": "New Lead"
+  },
+  {
+    "id": "lead-8",
+    "name": "Sweet Treats by Sarah",
+    "niche": "bakery",
+    "city": "Bristol, UK",
+    "country": "United Kingdom",
+    "phone": "+447854632613",
+    "email": "sweettreatsbysarahbristol@gmail.com",
+    "website": "None",
+    "website_status": "NO_WEBSITE (Instagram/FB Only)",
+    "score": 92,
+    "tier": "HOT",
+    "reasons": [
+      "No website (+45)",
+      "Direct UK Mobile WhatsApp (+25)",
+      "Bakery Demo Match (+22)"
+    ],
+    "demo_url": "https://agile-mesa-xz9bwog.vercel.app/",
+    "status": "New Lead"
+  },
+  {
+    "id": "lead-9",
+    "name": "PC & Laptop Repairs Birmingham",
+    "niche": "tech",
+    "city": "Birmingham, UK",
+    "country": "United Kingdom",
+    "phone": "+447719660842",
+    "email": "birminghampcrepairs@gmail.com",
+    "website": "None",
+    "website_status": "NO_WEBSITE",
+    "score": 91,
+    "tier": "HOT",
+    "reasons": [
+      "No booking website (+45)",
+      "Direct UK Mobile WhatsApp (+25)",
+      "Tech Demo Match (+21)"
+    ],
+    "demo_url": "https://nimble-redwood-oqmd48k.vercel.app/",
+    "status": "New Lead"
+  },
+  {
+    "id": "lead-10",
+    "name": "Macedo Winery & U-Vin",
+    "niche": "bakery",
+    "city": "Toronto, Ontario",
+    "country": "Canada",
+    "phone": "+14165350416",
+    "email": "daisy@macedowinery.ca",
+    "website": "https://macedowinery.ca",
+    "website_status": "OUTDATED_DESIGN (Needs Modern E-Commerce)",
+    "score": 87,
+    "tier": "WARM",
+    "reasons": [
+      "Direct Manager Email (Daisy Macedo) (+30)",
+      "Outdated UI (+35)",
+      "Verified Toronto Storefront (+22)"
+    ],
+    "demo_url": "https://agile-mesa-xz9bwog.vercel.app/",
+    "status": "New Lead"
+  },
+  {
+    "id": "lead-11",
+    "name": "Muscle Pit Gym",
+    "niche": "gym",
+    "city": "waikato / UK Branch",
+    "country": "United Kingdom",
+    "phone": "+447809427185",
+    "email": "musclepitgym@gmail.com",
+    "website": "None",
+    "website_status": "NO_WEBSITE (Facebook Only)",
+    "score": 90,
+    "tier": "HOT",
+    "reasons": [
+      "No membership website (+45)",
+      "Direct UK Mobile WhatsApp (+25)",
+      "Gym Demo Match (+20)"
+    ],
+    "demo_url": "https://instant-crystal-jrl47xi.vercel.app/",
+    "status": "New Lead"
+  },
+  {
+    "id": "lead-12",
+    "name": "Cairo Pyramids Private Tours",
+    "niche": "travel",
+    "city": "Cairo / Hurghada",
+    "country": "Egypt / UK Market",
+    "phone": "+201005428911",
+    "email": "info@cairopyramidstours.com",
+    "website": "None",
+    "website_status": "NO_WEBSITE (TripAdvisor/FB Only)",
+    "score": 89,
+    "tier": "HOT",
+    "reasons": [
+      "No direct booking site (+45)",
+      "WhatsApp Available (+24)",
+      "Direct Match for Egypt Travel Demo (+20)"
+    ],
+    "demo_url": "https://brisk-pulsar-buin3q6.vercel.app/",
+    "status": "New Lead"
+  }
+]

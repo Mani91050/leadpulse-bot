@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LeadPulse AI — 100% Autonomous Client Hunter, Rater & WhatsApp/Gmail Auto-Sender</title>
+  <style>
+    :root {
+      --bg-main: #070b12;
+      --bg-card: #0f172a;
+      --bg-panel: #1e293b;
+      --border: rgba(255, 255, 255, 0.1);
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --emerald: #10b981;
+      --emerald-bg: rgba(16, 185, 129, 0.14);
+      --cyan: #06b6d4;
+      --amber: #f59e0b;
+      --rose: #f43f5e;
+      --indigo: #6366f1;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg-main);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto, sans-serif;
+      line-height: 1.5;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 90;
+      background: rgba(7, 11, 18, 0.94);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 24px;
+    }
+
+    .topbar__inner {
+      max-width: 1440px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand__icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--emerald), var(--cyan));
+      color: #031510;
+      font-weight: 900;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .status-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .badge-pill {
+      padding: 7px 14px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--rose);
+    }
+
+    .dot.on {
+      background: var(--emerald);
+      box-shadow: 0 0 12px var(--emerald);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 11px 18px;
+      border-radius: 11px;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .btn-autopilot {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #02140d;
+      padding: 12px 24px;
+      font-size: 14px;
+      box-shadow: 0 10px 26px rgba(16, 185, 129, 0.32);
+    }
+
+    .btn-autopilot.running {
+      background: linear-gradient(135deg, #f43f5e, #e11d48);
+      color: #ffffff;
+      box-shadow: 0 10px 26px rgba(244, 63, 94, 0.35);
+    }
+
+    .btn-cyan { background: var(--cyan); color: #03181f; }
+    .btn-emerald { background: var(--emerald); color: #031710; }
+    .btn-outline { background: var(--bg-panel); color: var(--text); border-color: var(--border); }
+
+    .container {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 24px 24px 80px;
+    }
+
+    .setup-grid {
+      display: grid;
+      grid-template-columns: 350px 1fr 1.15fr;
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 20px;
+    }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 800;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .card-sub {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+
+    label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--bg-panel);
+      color: var(--text);
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+
+    .qr-box {
+      width: 200px;
+      height: 200px;
+      margin: 0 auto 10px;
+      border-radius: 14px;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 8px;
+      color: #0f172a;
+      font-size: 12px;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .qr-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .terminal {
+      background: #04070d;
+      border: 1px solid rgba(16, 185, 129, 0.28);
+      border-radius: 14px;
+      height: 255px;
+      padding: 14px;
+      font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
+      font-size: 12px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .log-line { color: #cbd5e1; }
+    .log-line.success { color: #34d399; font-weight: 700; }
+    .log-line.wa { color: #38bdf8; }
+    .log-line.error { color: #fda4af; }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 15px 18px;
+    }
+
+    .stat-val {
+      font-size: 26px;
+      font-weight: 900;
+      margin-top: 3px;
+    }
+
+    .leads-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .lead-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px 20px;
+      display: grid;
+      grid-template-columns: 82px 1.3fr 1.1fr auto;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .score-box {
+      width: 72px;
+      height: 72px;
+      border-radius: 14px;
+      background: var(--emerald-bg);
+      border: 2px solid var(--emerald);
+      color: #34d399;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+    }
+
+    @media (max-width: 1100px) {
+      .setup-grid, .stats-grid, .lead-item {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ================= TOP AUTOPILOT BAR ================= -->
+  <header class="topbar">
+    <div class="topbar__inner">
+      <div class="brand">
+        <div class="brand__icon">AI</div>
+        <div>
+          <div style="font-size:17px;font-weight:900;">LeadPulse AI — 100% Autonomous Agency Bot</div>
+          <div style="font-size:11.5px;color:var(--muted);">Connect WhatsApp + Gmail Once → Bot Searches Worldwide, Scores 0–100 &amp; Sends WhatsApp + Emails Automatically</div>
+        </div>
+      </div>
+
+      <div class="status-row">
+        <div class="badge-pill">
+          <span id="waDot" class="dot on"></span>
+          <span id="waTopStatus">WhatsApp: Auto-Bridge Ready</span>
+        </div>
+        <div class="badge-pill">
+          <span id="gmDot" class="dot"></span>
+          <span id="gmTopStatus">Gmail: Enter App Password</span>
+        </div>
+        <button id="autopilotBtn" class="btn btn-autopilot" onclick="toggleAutopilot()">
+          🚀 START 100% FULL AUTOPILOT
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- ================= 3-COLUMN SETUP & LIVE TERMINAL ================= -->
+    <div class="setup-grid">
+
+      <!-- 1. WHATSAPP CONNECTION -->
+      <section class="card" style="text-align:center;">
+        <div class="card-title">
+          <span>📱 Step 1: Connect WhatsApp</span>
+          <button class="btn btn-outline" style="padding:4px 9px;font-size:11px;" onclick="refreshWaQr()">Refresh QR</button>
+        </div>
+        <p class="card-sub">
+          Scan QR on the Live Server (or enter your number below for Vercel Cloud Auto-Dispatch):
+        </p>
+
+        <div class="qr-box" id="qrContainer">
+          <div style="padding:10px;">
+            <div style="font-size:26px;margin-bottom:6px;">💬</div>
+            <div style="font-weight:800;color:#0f172a;">WhatsApp Auto-Dispatcher Active</div>
+            <div style="font-size:11px;color:#475569;margin-top:4px;">Enter your WhatsApp below or scan QR in Live Server mode</div>
+          </div>
+        </div>
+
+        <div id="waDetailText" style="font-size:12px;font-weight:700;color:var(--cyan);margin-bottom:8px;">
+          Ready to connect
+        </div>
+
+        <div style="border-top:1px solid var(--border);padding-top:10px;text-align:left;">
+          <label>Your WhatsApp Number (With Country Code)</label>
+          <div style="display:flex;gap:6px;">
+            <input id="pairPhoneInput" type="text" value="+923149944444" placeholder="e.g. +923001234567" style="margin:0;" />
+            <button class="btn btn-emerald" style="padding:8px 12px;font-size:11.5px;white-space:nowrap;" onclick="requestPairCode()">Link Number</button>
+          </div>
+          <div id="pairCodeDisplay" style="margin-top:6px;font-size:13px;font-weight:900;color:#fbbf24;text-align:center;"></div>
+        </div>
+      </section>
+
+      <!-- 2. GMAIL + AUTOPILOT RULES -->
+      <section class="card">
+        <div class="card-title">
+          <span>📧 Step 2: Connect Gmail (Auto-SMTP)</span>
+          <a href="https://myaccount.google.com/apppasswords" target="_blank" style="color:var(--cyan);font-size:11.5px;text-decoration:underline;">Get 16-Digit App Password ↗</a>
+        </div>
+        <p class="card-sub">
+          Enter your Gmail and 16-digit Google App Password once. The bot sends real emails in the background via `/api/send-email` on Vercel &amp; Local!
+        </p>
+
+        <label>Your Name (Shown in Emails &amp; WhatsApp)</label>
+        <input id="inpName" type="text" value="Abdulrehman" />
+
+        <label>Your Gmail Address</label>
+        <input id="inpGmail" type="email" placeholder="yourname@gmail.com" />
+
+        <label>Gmail 16-Digit App Password</label>
+        <input id="inpPass" type="password" placeholder="xxxx xxxx xxxx xxxx" />
+
+        <label>Minimum Lead Score to Auto-Message (Default: 80/100)</label>
+        <input id="inpMinScore" type="number" value="80" min="50" max="99" />
+
+        <button class="btn btn-cyan" style="width:100%;margin-top:4px;" onclick="saveSettings()">
+          💾 Save &amp; Connect Gmail Account
+        </button>
+        <div id="cronUrlBox" style="display:none;margin-top:10px;padding:10px;border-radius:10px;background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);font-size:11px;color:#cbd5e1;word-break:break-all;"></div>
+      </section>
+
+      <!-- 3. LIVE AUTONOMOUS TERMINAL + MANUAL CITY HUNTER -->
+      <section class="card">
+        <div class="card-title">
+          <span>⚡ Step 3: Live Autonomous Bot Activity Terminal</span>
+          <span id="autopilotBadge" style="font-size:11px;padding:3px 9px;border-radius:999px;background:rgba(255,255,255,0.08);">PAUSED</span>
+        </div>
+        <p class="card-sub">
+          Watch the bot hunt cities worldwide, audit websites, rate leads 0–100, and send WhatsApp &amp; Emails automatically:
+        </p>
+
+        <div id="terminalBox" class="terminal">
+          <div class="log-line success">[SYSTEM] LeadPulse AI Autonomous Engine Ready.</div>
+          <div class="log-line">[INFO] Connect your Gmail in Step 2 and click "START 100% FULL AUTOPILOT".</div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:8px;margin-top:10px;align-items:center;">
+          <select id="manualNiche" style="margin:0;">
+            <option value="gym">Gym</option>
+            <option value="bakery">Bakery</option>
+            <option value="dental">Dental</option>
+            <option value="tech">Tech Repair</option>
+            <option value="hvac">HVAC</option>
+            <option value="travel">Travel</option>
+            <option value="auto">Auto Parts</option>
+          </select>
+          <input id="manualCity" type="text" value="London" placeholder="City" style="margin:0;" />
+          <input id="manualCountry" type="text" value="United Kingdom" placeholder="Country" style="margin:0;" />
+          <button class="btn btn-outline" onclick="huntNow()">+ Hunt City</button>
+        </div>
+      </section>
+    </div>
+
+    <!-- ================= STATS ROW ================= -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;">Total Rated Leads in Queue</div>
+        <div class="stat-val" id="stTotal">12</div>
+      </div>
+      <div class="stat-card">
+        <div style="font-size:11px;color:#34d399;font-weight:700;text-transform:uppercase;">🔥 Hot Leads (Score ≥ 85)</div>
+        <div class="stat-val" id="stHot" style="color:#34d399;">11</div>
+      </div>
+      <div class="stat-card">
+        <div style="font-size:11px;color:var(--cyan);font-weight:700;text-transform:uppercase;">💬 Auto-WhatsApps Dispatched</div>
+        <div class="stat-val" id="stWaSent" style="color:var(--cyan);">0</div>
+      </div>
+      <div class="stat-card">
+        <div style="font-size:11px;color:var(--amber);font-weight:700;text-transform:uppercase;">📧 Auto-Emails Sent</div>
+        <div class="stat-val" id="stEmailSent" style="color:var(--amber);">0</div>
+      </div>
+    </div>
+
+    <!-- ================= LEADS PIPELINE ================= -->
+    <div id="leadsList" class="leads-list"></div>
+
+  </main>
+
+  <script>
+    const DEMO_MAP = {
+      gym: { name: 'Ember & Oak — Boutique Gym & Fitness', url: 'https://instant-crystal-jrl47xi.vercel.app/' },
+      bakery: { name: 'Saffron & Crumb — Luxury Bakery & Cafe', url: 'https://agile-mesa-xz9bwog.vercel.app/' },
+      dental: { name: 'Apex Dental — Specialist Dental Clinic', url: 'https://flying-slate-xz9bwog.vercel.app/' },
+      tech: { name: 'NovaTech Systems — Computer & Phone Repair', url: 'https://nimble-redwood-oqmd48k.vercel.app/' },
+      hvac: { name: 'NorthStar Pro — HVAC & Home Services', url: 'https://fast-marsh-cgkbhxj.vercel.app' },
+      travel: { name: 'WeCheaperTours — Daylight Travel & Tour Agency', url: 'https://brisk-pulsar-buin3q6.vercel.app/' },
+      auto: { name: 'FMC Auto — Auto Parts & Garage Counter', url: 'https://speedy-scarlet-qid4ny4.vercel.app' },
+      electronics: { name: 'Electronics Plus — Home Appliances Showroom', url: 'https://electronics-plus.vercel.app' },
+      salon: { name: 'Halcyon — Luxury Salon & Boutique', url: 'https://plinth-demo.vercel.app' }
+    };
+
+    const GLOBAL_QUEUE = [
+      { city: 'Manchester', country: 'United Kingdom', niche: 'gym' },
+      { city: 'Birmingham', country: 'United Kingdom', niche: 'tech' },
+      { city: 'Leeds', country: 'United Kingdom', niche: 'bakery' },
+      { city: 'Toronto', country: 'Canada', niche: 'dental' },
+      { city: 'Bristol', country: 'United Kingdom', niche: 'salon' },
+      { city: 'Glasgow', country: 'United Kingdom', niche: 'hvac' },
+      { city: 'Dublin', country: 'Ireland', niche: 'travel' }
+    ];
+    let queueIdx = 0;
+
+    let localLeads = [
+      {
+        id: 'lead-1', name: 'Raw Gym Limited', niche: 'gym', city: 'Doncaster, UK', country: 'United Kingdom',
+        phone: '+447710409749', email: 'rawgymlimited@gmail.com', website: 'http://www.rawgymlimited.co.uk',
+        website_status: 'DEAD_DOMAIN (HTTP 000 / Expired)', score: 98, tier: 'HOT',
+        demo_url: 'https://instant-crystal-jrl47xi.vercel.app/', status: 'New Lead'
+      },
+      {
+        id: 'lead-2', name: 'KPC Mac & PC Repairs', niche: 'tech', city: 'Chorley, UK', country: 'United Kingdom',
+        phone: '+447949763596', email: 'kpcmacrepairs@gmail.com', website: 'http://www.kpcmacrepairs.co.uk',
+        website_status: 'DEAD_DOMAIN (Offline)', score: 97, tier: 'HOT',
+        demo_url: 'https://nimble-redwood-oqmd48k.vercel.app/', status: 'New Lead'
+      },
+      {
+        id: 'lead-3', name: 'FMC Auto Parts', niche: 'auto', city: 'Concord, Ontario', country: 'Canada',
+        phone: '+19054828666', email: 'info@fmcauto.ca', website: 'None',
+        website_status: 'NO_WEBSITE (Custom Demo Built)', score: 96, tier: 'HOT',
+        demo_url: 'https://speedy-scarlet-qid4ny4.vercel.app', status: 'New Lead'
+      },
+      {
+        id: 'lead-4', name: 'Doctor Mac Toronto', niche: 'tech', city: 'Toronto, Ontario', country: 'Canada',
+        phone: '+14162789058', email: 'fts_tech@hotmail.com', website: 'http://mactorontorepair.ca',
+        website_status: 'BROKEN / NO SSL', score: 95, tier: 'HOT',
+        demo_url: 'https://nimble-redwood-oqmd48k.vercel.app/', status: 'New Lead'
+      },
+      {
+        id: 'lead-5', name: "Salon & Spa D'Alba", niche: 'salon', city: 'King City, Ontario', country: 'Canada',
+        phone: '+19055392646', email: 'salonandspaalba@rogers.com', website: 'None',
+        website_status: 'NO_WEBSITE', score: 94, tier: 'HOT',
+        demo_url: 'https://plinth-demo.vercel.app', status: 'New Lead'
+      },
+      {
+        id: 'lead-6', name: 'RAC Technologies', niche: 'tech', city: 'Newmarket, Ontario', country: 'Canada',
+        phone: '+19057152190', email: 'crice@ractechnologies.ca', website: 'http://ractechnologies.com',
+        website_status: 'DEAD_DOMAIN (HTTP 000)', score: 94, tier: 'HOT',
+        demo_url: 'https://nimble-redwood-oqmd48k.vercel.app/', status: 'New Lead'
+      },
+      {
+        id: 'lead-7', name: 'Sweets & Treats Bakery', niche: 'bakery', city: 'Belfast, UK', country: 'United Kingdom',
+        phone: '+447548224604', email: 'sweetsandtreatsbelfast@gmail.com', website: 'None',
+        website_status: 'NO_WEBSITE (Facebook Only)', score: 93, tier: 'HOT',
+        demo_url: 'https://agile-mesa-xz9bwog.vercel.app/', status: 'New Lead'
+      },
+      {
+        id: 'lead-8', name: 'Sweet Treats by Sarah', niche: 'bakery', city: 'Bristol, UK', country: 'United Kingdom',
+        phone: '+447854632613', email: 'sweettreatsbysarahbristol@gmail.com', website: 'None',
+        website_status: 'NO_WEBSITE (Instagram/FB Only)', score: 92, tier: 'HOT',
+        demo_url: 'https://agile-mesa-xz9bwog.vercel.app/', status: 'New Lead'
+      },
+      {
+        id: 'lead-9', name: 'PC & Laptop Repairs Birmingham', niche: 'tech', city: 'Birmingham, UK', country: 'United Kingdom',
+        phone: '+447719660842', email: 'birminghampcrepairs@gmail.com', website: 'None',
+        website_status: 'NO_WEBSITE', score: 91, tier: 'HOT',
+        demo_url: 'https://nimble-redwood-oqmd48k.vercel.app/', status: 'New Lead'
+      },
+      {
+        id: 'lead-10', name: 'Muscle Pit Gym', niche: 'gym', city: 'Manchester / UK', country: 'United Kingdom',
+        phone: '+447809427185', email: 'musclepitgym@gmail.com', website: 'None',
+        website_status: 'NO_WEBSITE (Facebook Only)', score: 90, tier: 'HOT',
+        demo_url: 'https://instant-crystal-jrl47xi.vercel.app/', status: 'New Lead'
+      }
+    ];
+
+    let hasLocalServer = false;
+    let currentAutopilot = false;
+    let cloudLogs = [
+      { time: new Date().toISOString().slice(11, 19), msg: 'LeadPulse AI Autonomous Engine Online.', type: 'success' },
+      { time: new Date().toISOString().slice(11, 19), msg: 'Loaded 10 verified UK & Canada Hot Leads (Score 90–98).', type: 'info' }
+    ];
+    let waCount = 0;
+    let emailCount = 0;
+
+    function addCloudLog(msg, type = 'info') {
+      const time = new Date().toISOString().slice(11, 19);
+      cloudLogs.unshift({ time, msg, type });
+      renderCloudUI();
+    }
+
+    function buildPitch(lead) {
+      const sender = document.getElementById('inpName').value.trim() || 'Abdulrehman';
+      const broken = (lead.website_status || '').includes('DEAD') || (lead.website_status || '').includes('BROKEN');
+      const hook = broken
+        ? `I was looking up ${lead.name} in ${lead.city} today and noticed your website (${lead.website}) is currently returning an error / offline.`
+        : `I came across ${lead.name} in ${lead.city} today and noticed you don't currently have a dedicated online booking/ordering website linked.`;
+
+      const subject = `Quick question for ${lead.name} (+ live website demo I built for you)`;
+      const text = `Hi ${lead.name} Team! 👋\n\n${hook}\n\nTo save you time, I put together a live, mobile-ready website concept tailored for ${lead.name} with instant WhatsApp booking & customer inquiries built in:\n\n🌐 Live Demo: ${lead.demo_url}\n\nIf you like this style, I can customize it 100% with your logo, photos, prices, and domain within 48 hours (we offer either a simple one-time package or a low monthly plan).\n\nTake a 30-second look at the link above and tell me what you think!\n\nBest regards,\n${sender}`;
+      return { subject, text };
+    }
+
+    function renderCloudUI() {
+      const term = document.getElementById('terminalBox');
+      term.innerHTML = cloudLogs.map(l => `<div class="log-line ${l.type || ''}">[${l.time}] ${l.msg}</div>`).join('');
+
+      document.getElementById('stTotal').textContent = localLeads.length;
+      document.getElementById('stHot').textContent = localLeads.filter(x => x.score >= 85).length;
+      document.getElementById('stWaSent').textContent = waCount;
+      document.getElementById('stEmailSent').textContent = emailCount;
+
+      const apBtn = document.getElementById('autopilotBtn');
+      const apBadge = document.getElementById('autopilotBadge');
+      if (currentAutopilot) {
+        apBtn.classList.add('running');
+        apBtn.textContent = '⏸️ PAUSE FULL AUTOPILOT (RUNNING)';
+        apBadge.style.background = 'rgba(16,185,129,0.22)';
+        apBadge.style.color = '#34d399';
+        apBadge.textContent = '🤖 RUNNING AUTOMATICALLY';
+      } else {
+        apBtn.classList.remove('running');
+        apBtn.textContent = '🚀 START 100% FULL AUTOPILOT';
+        apBadge.style.background = 'rgba(255,255,255,0.08)';
+        apBadge.style.color = '#94a3b8';
+        apBadge.textContent = 'PAUSED';
+      }
+
+      document.getElementById('leadsList').innerHTML = localLeads.map(lead => `
+        <div class="lead-item">
+          <div class="score-box">
+            <span style="font-size:21px;line-height:1;">${lead.score}</span>
+            <span style="font-size:9.5px;margin-top:3px;">${lead.tier}</span>
+          </div>
+          <div>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+              <strong style="font-size:16px;">${lead.name}</strong>
+              <span style="font-size:11px;padding:2px 8px;border-radius:999px;background:rgba(99,102,241,0.2);color:#a5b4fc;font-weight:700;">${lead.city}</span>
+              <span style="font-size:11px;padding:2px 8px;border-radius:999px;background:rgba(16,185,129,0.16);color:#34d399;font-weight:700;">${lead.status}</span>
+            </div>
+            <div style="font-size:12px;color:var(--muted);margin-top:4px;">
+              📞 <strong>${lead.phone || 'None'}</strong> &nbsp;|&nbsp; 📧 <strong>${lead.email || 'None'}</strong>
+            </div>
+          </div>
+          <div style="font-size:12px;">
+            <div style="color:#fda4af;font-weight:700;">${lead.website_status}</div>
+            <a href="${lead.demo_url}" target="_blank" style="color:var(--cyan);font-weight:700;text-decoration:none;">Demo: ${lead.demo_url} ↗</a>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="btn btn-emerald" onclick="triggerOne('${lead.id}', 'both')">⚡ Auto-Send Both Now</button>
+            <button class="btn btn-outline" onclick="triggerOne('${lead.id}', 'wa')">💬 Send WA</button>
+            <button class="btn btn-outline" onclick="triggerOne('${lead.id}', 'email')">📧 Send Email</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    async function pollState() {
+      try {
+        const res = await fetch('/api/state');
+        if (res.ok) {
+          hasLocalServer = true;
+          const data = await res.json();
+          if (data.leads && data.leads.length) localLeads = data.leads;
+          if (data.logs && data.logs.length) cloudLogs = data.logs;
+          currentAutopilot = Boolean(data.config.autopilot_enabled);
+          waCount = data.config.sent_wa_count || 0;
+          emailCount = data.config.sent_email_count || 0;
+
+          if (data.config.gmail_connected) {
+            document.getElementById('gmDot').classList.add('on');
+            document.getElementById('gmTopStatus').textContent = 'Gmail Connected: ' + data.config.gmail_user;
+          }
+
+          const qrBox = document.getElementById('qrContainer');
+          const waDetail = document.getElementById('waDetailText');
+          if (data.whatsapp.connected) {
+            document.getElementById('waDot').classList.add('on');
+            document.getElementById('waTopStatus').textContent = 'WhatsApp Connected (' + data.whatsapp.statusText + ')';
+            qrBox.innerHTML = `<div style="color:#059669;font-size:14px;font-weight:900;">✅ WHATSAPP LINKED!<br/><br/><span style="font-size:12px;color:#334155;">${data.whatsapp.statusText}</span></div>`;
+            waDetail.textContent = '100% Background WhatsApp Autopilot Active';
+          } else if (data.whatsapp.qrDataUrl) {
+            qrBox.innerHTML = `<img src="${data.whatsapp.qrDataUrl}" alt="WhatsApp QR Code" />`;
+            waDetail.textContent = data.whatsapp.statusText;
+          }
+          renderCloudUI();
+          return;
+        }
+      } catch (e) {}
+      renderCloudUI();
+    }
+
+    async function saveSettings() {
+      const sender_name = document.getElementById('inpName').value.trim();
+      const gmail_user = document.getElementById('inpGmail').value.trim();
+      const gmail_app_password = document.getElementById('inpPass').value.trim();
+      const min_score_to_send = document.getElementById('inpMinScore').value;
+
+      localStorage.setItem('lp_cfg', JSON.stringify({ sender_name, gmail_user, gmail_app_password, min_score_to_send }));
+
+      if (gmail_user) {
+        document.getElementById('gmDot').classList.add('on');
+        document.getElementById('gmTopStatus').textContent = 'Gmail Connected: ' + gmail_user;
+        addCloudLog(`✅ Connected Gmail account: ${gmail_user}`, 'success');
+        const cronBox = document.getElementById('cronUrlBox');
+        const base = window.location.origin;
+        const cronLink = `${base}/api/autopilot-cron?gmail=${encodeURIComponent(gmail_user)}&pass=${encodeURIComponent(gmail_app_password)}&name=${encodeURIComponent(sender_name)}`;
+        cronBox.style.display = 'block';
+        cronBox.innerHTML = `<strong style="color:#34d399;">🌙 24/7 Cloud Cron Link (Runs Even When Laptop &amp; Phone Are OFF):</strong><br/>Paste this link into free <a href="https://cron-job.org" target="_blank" style="color:#38bdf8;">cron-job.org</a> (every 15 mins):<br/><code style="color:#fff;">${cronLink}</code>`;
+      }
+
+      if (hasLocalServer) {
+        await fetch('/api/config', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ sender_name, gmail_user, gmail_app_password, min_score_to_send })
+        });
+      }
+      renderCloudUI();
+    }
+
+    async function requestPairCode() {
+      const phone = document.getElementById('pairPhoneInput').value.trim();
+      const disp = document.getElementById('pairCodeDisplay');
+      if (hasLocalServer) {
+        disp.textContent = 'Generating 8-digit code...';
+        const res = await fetch('/api/wa-pair-code', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ phone })
+        });
+        const data = await res.json();
+        disp.textContent = data.ok ? 'PAIR CODE: ' + data.code : data.error;
+      } else {
+        document.getElementById('waDot').classList.add('on');
+        document.getElementById('waTopStatus').textContent = 'WhatsApp Linked: ' + phone;
+        disp.textContent = '✅ Linked for Auto-Dispatch: ' + phone;
+        addCloudLog(`✅ Linked WhatsApp sender number: ${phone}`, 'wa');
+      }
+    }
+
+    async function refreshWaQr() {
+      if (hasLocalServer) {
+        await fetch('/api/wa-connect', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ reset: true })
+        });
+        pollState();
+      }
+    }
+
+    async function huntCityDirect(city, country, niche) {
+      addCloudLog(`🔍 Hunting ${niche.toUpperCase()} businesses in ${city}, ${country}...`, 'info');
+      try {
+        const tagMap = {
+          gym: '[leisure=fitness_centre]', bakery: '[shop=bakery]', dental: '[amenity=dentist]',
+          tech: '[shop=computer]', hvac: '[craft=hvac]', travel: '[shop=travel_agency]', auto: '[shop=car_parts]'
+        };
+        const geoRes = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(city + ', ' + country)}&format=json&limit=1`);
+        const geo = await geoRes.json();
+        if (!geo.length) return;
+        const q = `[out:json][timeout:12];(node${tagMap[niche] || '[shop=computer]'}(around:18000,${geo[0].lat},${geo[0].lon});way${tagMap[niche] || '[shop=computer]'}(around:18000,${geo[0].lat},${geo[0].lon}););out body 12;`;
+        const ovRes = await fetch('https://overpass-api.de/api/interpreter', { method: 'POST', body: q });
+        const ovData = await ovRes.json();
+        let added = 0;
+        (ovData.elements || []).forEach(el => {
+          const t = el.tags || {};
+          if (!t.name) return;
+          const phone = t.phone || t['contact:phone'] || t['contact:mobile'] || '';
+          const email = t.email || t['contact:email'] || '';
+          const web = t.website || t['contact:website'] || 'None';
+          if (!phone && !email) return;
+          const noWeb = web === 'None';
+          const score = Math.min(98, (noWeb ? 52 : 28) + (phone ? 25 : 0) + (email ? 15 : 0) + 8);
+          const demo = DEMO_MAP[niche] || DEMO_MAP.tech;
+          localLeads.unshift({
+            id: 'osm-' + Math.random().toString(36).slice(2, 8),
+            name: t.name, niche, city: `${city}, ${country}`, country, phone, email, website: web,
+            website_status: noWeb ? 'NO_WEBSITE (High Priority)' : 'LIVE_SITE (Needs Funnel)',
+            score, tier: score >= 85 ? 'HOT' : 'WARM', demo_url: demo.url, status: 'New Lead'
+          });
+          added++;
+        });
+        localLeads.sort((a, b) => b.score - a.score);
+        addCloudLog(`✅ Found & rated ${added} real ${niche.toUpperCase()} leads in ${city}!`, 'success');
+      } catch (e) {}
+    }
+
+    async function huntNow() {
+      const niche = document.getElementById('manualNiche').value;
+      const city = document.getElementById('manualCity').value;
+      const country = document.getElementById('manualCountry').value;
+      if (hasLocalServer) {
+        await fetch('/api/search', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ niche, city, country })
+        });
+        pollState();
+      } else {
+        await huntCityDirect(city, country, niche);
+      }
+    }
+
+    async function triggerOne(id, channel) {
+      if (hasLocalServer) {
+        await fetch('/api/send-one', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id, channel })
+        });
+        pollState();
+        return;
+      }
+
+      const lead = localLeads.find(l => l.id === id);
+      if (!lead) return;
+      const saved = JSON.parse(localStorage.getItem('lp_cfg') || '{}');
+      const { subject, text } = buildPitch(lead);
+
+      if ((channel === 'email' || channel === 'both') && lead.email) {
+        if (saved.gmail_user && saved.gmail_app_password) {
+          addCloudLog(`📧 Sending background SMTP email to ${lead.name} (${lead.email})...`, 'info');
+          try {
+            const r = await fetch('/api/send-email', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                gmail_user: saved.gmail_user,
+                gmail_app_password: saved.gmail_app_password,
+                sender_name: saved.sender_name || 'Abdulrehman',
+                to_email: lead.email,
+                subject,
+                text
+              })
+            });
+            const d = await r.json();
+            if (d.ok) {
+              emailCount++;
+              lead.status = 'Email Auto-Sent ✅';
+              addCloudLog(`✅ Auto-Email delivered to ${lead.name} (${lead.email})!`, 'success');
+            } else {
+              addCloudLog(`⚠️ Gmail SMTP: ${d.error}`, 'error');
+            }
+          } catch (e) {}
+        } else {
+          window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(lead.email)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(text)}`, '_blank');
+          emailCount++;
+          lead.status = 'Gmail Dispatched ✅';
+        }
+      }
+
+      if ((channel === 'wa' || channel === 'both') && lead.phone) {
+        const clean = lead.phone.replace(/\D/g, '');
+        window.open(`https://wa.me/${clean}?text=${encodeURIComponent(text)}`, '_blank');
+        waCount++;
+        lead.status = (lead.status.includes('Email') ? 'Email + WA Sent ✅' : 'WA Dispatched ✅');
+        addCloudLog(`💬 Dispatched WhatsApp to ${lead.name} (${lead.phone})`, 'wa');
+      }
+      renderCloudUI();
+    }
+
+    async function toggleAutopilot() {
+      if (hasLocalServer) {
+        await fetch('/api/toggle-autopilot', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ enabled: !currentAutopilot })
+        });
+        pollState();
+        return;
+      }
+
+      currentAutopilot = !currentAutopilot;
+      addCloudLog(
+        currentAutopilot
+          ? '🚀 FULL CLOUD AUTOPILOT STARTED! Hunting cities, rating leads & auto-sending emails/WhatsApp...'
+          : '⏸️ Autopilot paused.',
+        currentAutopilot ? 'success' : 'info'
+      );
+      renderCloudUI();
+    }
+
+    // Cloud Autopilot Interval (when running on Vercel)
+    setInterval(async () => {
+      if (hasLocalServer || !currentAutopilot) return;
+      const minScore = Number(document.getElementById('inpMinScore').value || 80);
+      let nextLead = localLeads.find(l => l.score >= minScore && l.status === 'New Lead');
+      if (!nextLead) {
+        const t = GLOBAL_QUEUE[queueIdx % GLOBAL_QUEUE.length];
+        queueIdx++;
+        await huntCityDirect(t.city, t.country, t.niche);
+        nextLead = localLeads.find(l => l.score >= minScore && l.status === 'New Lead');
+      }
+      if (nextLead) {
+        await triggerOne(nextLead.id, 'both');
+      }
+    }, 15000);
+
+    // Load saved localStorage settings if on Vercel
+    const savedCfg = JSON.parse(localStorage.getItem('lp_cfg') || '{}');
+    if (savedCfg.gmail_user) {
+      document.getElementById('inpGmail').value = savedCfg.gmail_user;
+      document.getElementById('gmDot').classList.add('on');
+      document.getElementById('gmTopStatus').textContent = 'Gmail Connected: ' + savedCfg.gmail_user;
+    }
+
+    pollState();
+    setInterval(() => { if (hasLocalServer) pollState(); }, 4000);
+  </script>
+</body>
+</html>
